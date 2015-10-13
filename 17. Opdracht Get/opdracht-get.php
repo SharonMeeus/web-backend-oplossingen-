@@ -65,22 +65,22 @@ if(isset($_GET["id"])) { // Als er een id is. → ?id=...
 	<link rel="stylesheet" type="text/css" href="style/style.css">
 </head>
 <body>
+	<?php if(!$nietBestaandArtikel): ?>
 	<div id="content">
 		<?php foreach ($artikels as $key => $value) : ?> 
 			<div class="artikel">
 				<h1><?php echo $value["titel"]; ?></h1>
 				<img src="<?php echo $value['afbeelding']; ?>" alt="<?php echo $value['afbeeldingbeschrijving']; ?>" />
 				<p id="datum"><?php echo $value["datum"]; ?></p>
-					<?php if(!$individueelArtikel) {
-						echo substr($value["inhoud"], 0, 50); 
-					} else {
-						echo $value["inhoud"];
-					}
-					?>
-				</p>
-				<a href="http://web-backend.local/cursus/opdrachten/opdracht-get/opdracht-get.php?id=<?= $key ?>">Lees meer</a>
+				<p><?php echo (!$individueelArtikel) ? substr($value["inhoud"], 0, 50) : $value["inhoud"]; ?></p>
+				<?php if(!$individueelArtikel) : ?> 
+					<a href="http://web-backend.local/cursus/opdrachten/opdracht-get/opdracht-get.php?id=<?= $key ?>">Lees meer</a>
+				<?php endif ?>
 			</div>
 		<?php endforeach ?>
 	</div>
+	<?php else: ?>
+		<p>Dit artikel bestaat niet...</p>
+	<?php endif ?>
 </body>
 </html>
