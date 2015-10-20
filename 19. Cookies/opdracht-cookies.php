@@ -1,6 +1,7 @@
 <?php
 	$text = file_get_contents("cookie.txt");
 	$array_of_text = explode(",", $text);
+	$username = $array_of_text[0];
 	$error = "";
 	if (isset($_GET["destroy"]))
 	{
@@ -47,7 +48,7 @@
 
 		<?php if (isset($_COOKIE['correctLogin']) && $_COOKIE['correctLogin']=='loggedin'): ?>
 			<h1>Dashboard</h1>
-			<p>U bent ingelogd.</p>
+			<p>Hallo <?= ucfirst($username) ?>, fijn dat je er weer bij bent!</p>
 			<a href="opdracht-cookies.php?destroy=true">Uitloggen</a>
 		<?php else: ?>
 			<h1>Inloggen</h1>
