@@ -16,12 +16,21 @@
 		{
 			if ($_POST['username']==$array_of_text[0] && $_POST['password']==$array_of_text[1]) 
 			{
-				setcookie("correctLogin",'loggedin', time()+360);
+				if ($_POST['remember'] === "checked") {
+
+					setcookie('correctLogin', 'loggedin', time()+30*24*60*60); //expiration date van 30 dagen
+
+				} else {
+
+					setcookie('correctLogin', 'loggedin', 0); //Cookie vervalt na eindigen sessie
+
+				}
+				
 				header('Location: opdracht-cookies.php');
-			}
-			else
-			{
+			} else {
+
 				$error = 'Gebruikersnaam en/of paswoord niet correct. Probeer opnieuw.';
+
 			}
 		}
 	}
@@ -52,6 +61,8 @@
 				<input type="text" name="username" id="username"><br/>
 				<label for="password">Paswoord:</label><br/>
 				<input type="password" name="password" id="password"><br/>
+				<input type="checkbox" name="remember" id="remember" value="checked">
+				<label for="remember">mij onthouden</label><br/>
 				<input type="submit" name="Login" value="Aanmelden">
 			</form>
 		<?php endif; ?>
