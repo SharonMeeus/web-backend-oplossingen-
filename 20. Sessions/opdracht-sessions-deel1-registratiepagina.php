@@ -33,6 +33,7 @@
 		<br/>
 		<label for="nickname">nickname:</label>
 		<input type="text" name="nickname"  value="<?= $nickname ?>" id="nickname">
+		<br />
 		<input type="submit" value="Volgende" id="submitbutton" name="submit_Registration">
 	</form>
 	
