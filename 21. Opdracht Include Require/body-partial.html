@@ -1,0 +1,22 @@
+<section class="body group">
+	<h1>Nieuws</h1>
+	<?php foreach ($artikels as $key => $value) : ?>
+		<article>
+			<h1><?= $value['title'] ?></h1> <!-- $value is een associative array en je wilt de waarde van title hebben -->
+			<p><?= $value["text"] ?></p>
+			<p>
+				<?php foreach ($value['tags'] as $key => $tag) { // tags bevat zelf ook een array waarvan je de waarden wil hebben
+					// checken of het de laatste tag is
+					$lasttag = end($value['tags']);
+					if($tag != $lasttag) {
+						// als het niet zo is een komma bij toevoegen.
+						echo $tag . ", ";
+					} else {
+						// Anders niet.
+						echo $tag;
+					}
+				} ?>
+			</p>
+		</article>
+	<?php endforeach ?>
+</section>

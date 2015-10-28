@@ -1,7 +1,7 @@
 <?php 
 
 	session_start();
-	
+
 	if(isset($_POST["submit_Address"])) 
 	{
 		$_SESSION['address']['street'] = $_POST['street'];
@@ -31,10 +31,10 @@
 	<h1>Overzichtspagina</h1>
 	<ul>
 		<?php foreach ($_SESSION["registration"] as $key => $value) : ?>
-			<li><?= $key . ": " . $value; ?> <a href="opdracht-sessions-deel1-registratiepagina.php">wijzig</a></li>
+			<li><?= $key . ": " . $value; ?> <a href="opdracht-sessions-deel1-registratiepagina.php?focus=<?= $key ?>">wijzig</a></li>
 		<?php endforeach ?>
 		<?php foreach ($_SESSION["address"] as $key => $value) : ?>
-			<li><?= $key . ": " . $value ?> <a href="opdracht-sessions-deel2-adrespagina.php">wijzig</a></li>
+			<li><?= $key . ": " . $value ?> <a href="opdracht-sessions-deel2-adrespagina.php?focus=<?= $key ?>">wijzig</a></li>
 		<?php endforeach ?>
 	</ul>
 </body>

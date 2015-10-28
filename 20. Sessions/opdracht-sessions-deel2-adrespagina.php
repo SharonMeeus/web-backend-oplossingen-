@@ -9,11 +9,13 @@
 		{
 			header('Location: opdracht-sessions-deel1-registratiepagina.php'); 
 		}
+
 	} else {
 
 		/* $_SESSION['registration']['email']="";
 		$_SESSION['registration']['nickname']=""; */
 	}
+
 	$street = (isset($_SESSION['address']['street']))? $_SESSION['address']['street'] : '';
 	$number = (isset($_SESSION['address']['number']))? $_SESSION['address']['number'] : '';
 	$city = (isset($_SESSION['address']['city']))? $_SESSION['address']['city'] : ''; 
@@ -38,16 +40,16 @@
 	<h1>Deel 2: adres</h1>
 	<form action="opdracht-sessions-deel3-overzichtpagina.php" method="post">
 		<label for="street">Straat:</label>
-		<input type="text" name="street" id="street" value="<?= $street ?>">
+		<input type="text" name="street" id="street" value="<?= $street ?>" <?= (isset($_GET['focus']) && ($_GET['focus'] == "street")) ? 'autofocus' : "" ?>>
 		<br />
 		<label for="number">Nummer:</label>
-		<input type="number" name="number" id="number" value="<?= $number ?>">
+		<input type="number" name="number" id="number" value="<?= $number ?>" <?= (isset($_GET['focus']) && ($_GET['focus'] == "number")) ? 'autofocus' : "" ?>>
 		<br />
 		<label for="city">Gemeente:</label>
-		<input type="text" name="city" id="city" value="<?= $city ?>">
+		<input type="text" name="city" id="city" value="<?= $city ?>" <?= (isset($_GET['focus']) && ($_GET['focus'] == "city")) ? 'autofocus' : "" ?>>
 		<br />
 		<label for="zipcode">Postcode:</label>
-		<input type="text" name="zipcode" id="zipcode" value="<?= $zipcode ?>">
+		<input type="text" name="zipcode" id="zipcode" value="<?= $zipcode ?>" <?= (isset($_GET['focus']) && ($_GET['focus'] == "zipcode")) ? 'autofocus' : "" ?>>
 		<br />
 		<input type="submit" name="submit_Address" value="Volgende" id="submitbutton">
 		<br />
