@@ -63,6 +63,19 @@
 		}
 	}
 
+	// Verwijderen proberen via unset. Dus we moeten eerst de array vinden adhv de key wrs.
+	// Dus eerst kijken of er op de knop verwijderen is gedrukt
+	if(isset($_POST["todo_verwijderen"]))
+	{
+		foreach ($_SESSION["todos"] as $key => $array) // Hier dan de keys van de arrays verkrijgen
+		{
+			if($_POST["todo_verwijderen"] == $key) // Als de value van de button matcht met de key, dan moet je deze verwijderen.
+			{
+				unset($_SESSION["todos"][$key]);
+			}
+		}	
+	}
+
 	// voor no_do en no_done moeten we eerst kunnen kijken of er nog een do of done in onze session zit → we moeten kijken naar de status
 	// Dus je moet kijken of de waarde van het AANTAL do's of done groter is dan 0. Anders moet no_do en no_done op false
 	foreach ($_SESSION["todos"] as $key => $array) 
@@ -93,7 +106,9 @@
 			$no_done = false; // anders tonen we de items
 		}
 
-	}
+	}	
+
+
 
 
 ?>
@@ -140,7 +155,7 @@
 										<button title="status wijzigen" name="todo_wijzigen" value="<?= $key ?>" class="todo"> <!-- value moet de key zijn om te weten welk item in de session veranderd moet worden -->
 											<?= $value ?>
 										</button>
-										<button title="verwijderen" name="todo_verwijderen" value="">
+										<button title="verwijderen" name="todo_verwijderen" value="<?= $key ?>">
 										</button>
 									</form>
 								</li>
@@ -167,7 +182,7 @@
 										<button title="status wijzigen" name="todo_wijzigen" value="<?= $key ?>" class="done"> <!-- value moet de key zijn om te weten welk item in de session veranderd moet worden -->
 											<?= $value ?>
 										</button>
-										<button title="verwijderen" name="todo_verwijderen" value="">
+										<button title="verwijderen" name="todo_verwijderen" value="<?= $key ?>">
 										</button>
 									</form>
 								</li>
