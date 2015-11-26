@@ -1,5 +1,4 @@
 <?php 
-// $no_do en $no_done functionaliteit??
 // verwijderen (via unset? zie php manual)
 // styling
 
@@ -11,14 +10,12 @@
 
 	$a = false;
 	$b = array();
-
-	$error = false;
-
 	$no_do = true;
 	$no_done = true;
-	//$_SESSION["todos"][] = array("niks" => "done");
+	$aant_do = 0;
+	$aant_done = 0;
 
-
+	$error = false;
 
 	// Eerst checken of er gesubmit is en als er iets is ingevuld in input_todo → dit toevoegen aan session
 	if(isset($_POST["submit_todo"]))
@@ -30,7 +27,7 @@
 			// Dit gaan we dan in een session moeten steken om de status te onthouden.
 			// Een multidimensionale array om zo ELK item en status te onthouden. Anders kan er maar één array in.
 			$_SESSION['todos'][] = $array_w_status;
-			$no_do = false;
+			$no_do = false; 
 		}
 
 		else 
@@ -66,6 +63,38 @@
 		}
 	}
 
+	// voor no_do en no_done moeten we eerst kunnen kijken of er nog een do of done in onze session zit → we moeten kijken naar de status
+	// Dus je moet kijken of de waarde van het AANTAL do's of done groter is dan 0. Anders moet no_do en no_done op false
+	foreach ($_SESSION["todos"] as $key => $array) 
+	{	
+		foreach ($array as $value => $status) //De status eruit halen (do of done)
+		{
+			if($status == "do") // als de status do is, dan gaat aant_do met een omhoog, anders gaat aant_done omhoog
+			{
+				$aant_do++;
+			}
+			elseif($status == "done")
+			{
+				$aant_done++;
+			}
+		}
+
+		if($aant_do == 0) // als er geen aant_do gevonden zijn zetten we no_do op true en tonen we een bep bericht in onze HTML
+		{
+			$no_do = true;
+		} else {
+			$no_do = false; // anders tonen we de items
+		}
+
+		if($aant_done == 0)
+		{
+			$no_done = true; // als er geen aant_done gevonden zijn zetten we no_done op true en tonen we een bep bericht in onze HTML
+		} else {
+			$no_done = false; // anders tonen we de items
+		}
+
+	}
+
 
 ?>
 
@@ -77,7 +106,12 @@
 	</head>
 	<body>
 		<div id="content">
-			<p><?php var_dump($_SESSION["todos"]); ?></p>
+			<p>
+				<?php var_dump($_SESSION["todos"]); ?>
+				<?php var_dump($aant_do); ?>
+				<?php var_dump($aant_done); ?>
+			</p>
+
 			<!-- Als $_POST("input_todo") leeg is... -->
 			<!-- elke keer checken wanneer er wordt gesubmit -->
 			<?php if($error == true) : ?>
