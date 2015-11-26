@@ -1,7 +1,6 @@
 <?php 
-// wijzigen afmaken
 // $no_do en $no_done functionaliteit??
-// verwijderen (via unset, zie php manual)
+// verwijderen (via unset? zie php manual)
 // styling
 
 
@@ -17,6 +16,7 @@
 
 	$no_do = true;
 	$no_done = true;
+	//$_SESSION["todos"][] = array("niks" => "done");
 
 
 
@@ -39,17 +39,30 @@
 		}
 	}
 
-	//Als een item van todo gewijzigd wordt naar done
+	//Als een item gewijzigd wordt
 	if(isset($_POST["todo_wijzigen"]))
 	{
 		// Het item in het session-object zoeken aan de hand van de value van de button en de session key
 		foreach ($_SESSION["todos"] as $key => $array) 
 		{
-			// Hier dus de session doorzoeken tot de key matcht met de value
-			if($_POST["todo_wijzigen"] == $key)
-			{
-				// do naar done wijzigen en omgekeerd
+			foreach ($array as $value => $status) {
+				// Hier dus de session doorzoeken tot de key matcht met de value
+				if($_POST["todo_wijzigen"] == $key)
+				{
+					if($status == "do") // kijken of status do is en wisselen naar done
+					{
+						$_SESSION["todos"][$key] = array($value => "done"); // deze plaats in de session vervangen met de array die we net gewijzigd hebben
+						$no_done = false; // dit er even bij zetten zodat het getoond wordt. Moet later vervangen worden door functie.
+					} 
+					elseif($status == "done") 
+					{
+						$_SESSION["todos"][$key] = array($value => "do"); // deze plaats in de session vervangen met de array die we net gewijzigd hebben
+						$no_do = false;
+					}
+
+				}
 			}
+
 		}
 	}
 
@@ -93,7 +106,7 @@
 										<button title="status wijzigen" name="todo_wijzigen" value="<?= $key ?>" class="todo"> <!-- value moet de key zijn om te weten welk item in de session veranderd moet worden -->
 											<?= $value ?>
 										</button>
-										<button title="verwijderen" name="todo_verwijderen" value="0">
+										<button title="verwijderen" name="todo_verwijderen" value="">
 										</button>
 									</form>
 								</li>
@@ -117,10 +130,10 @@
 							<?php if($status == "done") : ?> <!-- Enkel de items met de status "done" willen we in deze lijst tonen. -->
 								<li>
 									<form action="Todo_app.php" method="post">
-										<button title="status wijzigen" name="done_wijzigen" value="<?= $key ?>" class="todo"> <!-- value moet de key zijn om te weten welk item in de session veranderd moet worden -->
+										<button title="status wijzigen" name="todo_wijzigen" value="<?= $key ?>" class="done"> <!-- value moet de key zijn om te weten welk item in de session veranderd moet worden -->
 											<?= $value ?>
 										</button>
-										<button title="verwijderen" name="done_verwijderen" value="0">
+										<button title="verwijderen" name="todo_verwijderen" value="">
 										</button>
 									</form>
 								</li>

@@ -8,6 +8,7 @@
 
 	$myHTMLBuilder->buildHeader();
 	$myHTMLBuilder->buildBody();
+	$myHTMLBuilder->buildFooter();
 
 
 ?>

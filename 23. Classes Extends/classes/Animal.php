@@ -4,7 +4,8 @@
 
 		public $name, $gender, $health;
 
-		public function __construct($name, $gender, $health) {
+		public function __construct($name, $gender, $health) 
+		{
 			$this->name = $name;
 			$this->gender = $gender;
 			$this->health = $health;
