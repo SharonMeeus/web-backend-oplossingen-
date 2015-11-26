@@ -48,8 +48,7 @@
 
 			foreach(glob('js/*.js') as $filename) // elk bestand met de extensie js in de map js zoeken
 			{
-				$js = "";
-				$js = "<link rel='stylesheet' type='text/css' href='css/" . basename($filename) . "'/>" . "\n"; //glob geeft het hele pad, maar je wil enkel de filename → basename
+				$js = $js . "<script type='text/javascript' src='js/" . basename($filename) . "'></script>" . "\n"; //glob geeft het hele pad, maar je wil enkel de filename → basename
 			}
 
 			return $js;
