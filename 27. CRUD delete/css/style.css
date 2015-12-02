@@ -1,0 +1,53 @@
+.fout
+{
+	color: red;
+}
+
+table 
+{
+	border-collapse: collapse;
+}
+
+thead
+{
+	font-weight: bold;
+}
+
+td 
+{
+	border: 1px solid black;
+	padding: 10px;
+}
+
+thead td
+{
+	text-align: center;
+}
+
+tbody tr:nth-child(even)
+{
+	background-color: #fff;
+}
+
+tbody tr:nth-child(odd)
+{
+	background-color: #f1f1f1;
+}
+
+.input-icon-button
+{
+    border: none;
+    background-color:transparent;
+    cursor:pointer;
+    text-indent:-1000px;
+}
+
+.delete
+{
+    width:16px;
+    height:16px;
+    background: url("http://web-backend.local/img/icon-delete.png") no-repeat;
+}
+
+
+
