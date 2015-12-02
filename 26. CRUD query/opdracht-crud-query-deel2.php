@@ -2,6 +2,7 @@
 	
 	$message = false; // zoals errorMessage bij errorhandling
 	$showtable = false;
+	static $counter = 1; // static blijft ook zijn waarde behouden als je het optelt; 
 
 	try
 	{
@@ -27,7 +28,7 @@
 
 			$statement2 = $db->prepare($queryString2);
 
-			$statement2->bindValue(':brouwernr', $_GET['brouwernr'] );
+			$statement2->bindValue(':brouwernr', $_GET['brouwernr'] ); // $_GET['brouwernr'] in de waarde :brouwernr steken
 
 			$statement2->execute();
 
@@ -67,7 +68,7 @@
 	<form action="opdracht-crud-query-deel2.php" method="get">
 		<select name="brouwernr"> <!-- adhv de name de value van de option getten -->
 			<?php foreach($fetchAssoc as $key => $array) : ?> <!-- je krijgt arrays terug met als key brnaam of brouwernr, we willen de waarden van brnaam in onze option en brouwernr als value om hierdoor te kunnen linken met de brouwernr van bieren -->
-				<option value="<?= $array['brouwernr'] ?>" <?= (($_GET['brouwernr']) == $array['brouwernr']) ? "selected" : "" ?>> <!-- als de gesubmitte brouwernr overeenkomt met de huidige brouwernr vd array → deze selecteren zodat deze zichtbaar blijft -->
+				<option value="<?= $array['brouwernr'] ?>" <?= (isset($_GET['brouwernr']) ? ($_GET['brouwernr'] == $array['brouwernr'] ? "selected" : "") : "" ) ?>> <!-- als de gesubmitte brouwernr overeenkomt met de huidige brouwernr vd array → deze selecteren zodat deze zichtbaar blijft -->
 					<?= $array['brnaam'] ?>
 				</option>
 			<?php endforeach ?>
@@ -78,6 +79,7 @@
 		<table>
 			<thead>
 			<tr>
+				<td>Aantal</td>
 				<?php foreach($fetchBieren[0] as $key => $array) : ?> <!-- kan ook weer [1], [2],...  -->
 					<td><?= $key ?></td> <!-- In dit geval enkel naam -->
 				<?php endforeach ?>
@@ -86,7 +88,9 @@
 		<tbody>
 			<?php foreach($fetchBieren as $key => $array) : ?> 
 				<tr>
+					<td><?= $counter ?></td>
 					<td><?= $array['naam']?></td> <!-- toch enkel de naam nodig -->
+					<?php $counter++; ?> <!-- waarde optellen kan omdat deze static is-->
 				</tr>
 			<?php endforeach ?>
 		</tbody>

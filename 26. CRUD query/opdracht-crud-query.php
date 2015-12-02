@@ -1,7 +1,7 @@
 <?php
 	
 	$message = false; // zoals errorMessage bij errorhandling
-
+	static $counter = 1; // static blijft ook zijn waarde behouden als je het optelt; 
 	try
 	{
 		$db = new PDO('mysql:host=localhost;dbname=bieren', 'root', 'admin'); // Connectie maken met DB bieren en username rot en password admin
@@ -47,6 +47,7 @@
 	<table>
 		<thead>
 			<tr>
+				<td>#</td>
 				<?php foreach($fetchAssoc[0] as $key => $value) : ?> <!-- mag ook [1], [2],... zijn: Je neemt de eerste array en daarvan altijd de key (=kolomnaam) -->
 					<td><?= $key ?></td>
 				<?php endforeach ?>
@@ -55,9 +56,11 @@
 		<tbody>
 			<?php foreach($fetchAssoc as $key => $array) : ?> <!-- $fetchAssoc bestaat uit 4 arrays dus $array is een array → weer foreach </var> -->
 				<tr> <!-- elke array in een nieuwe tr -->
+					<td><?= $counter ?></td>
 					<?php foreach($array as $arraykey => $value) : ?> <!-- met $arraykey = 4 keer de kolomnamen, en $value = de waarden → moeten we hebben -->
 						<td><?= $value ?></td>
 					<?php endforeach ?>
+					<?php $counter++; ?> <!-- waarde optellen kan omdat deze static is-->
 				</tr>
 			<?php endforeach ?>
 		</tbody>
