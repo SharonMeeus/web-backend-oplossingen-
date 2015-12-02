@@ -1,0 +1,37 @@
+.fout
+{
+	color: red;
+}
+
+table 
+{
+	border-collapse: collapse;
+}
+
+thead
+{
+	font-weight: bold;
+}
+
+td 
+{
+	border: 1px solid black;
+	padding: 10px;
+}
+
+thead td
+{
+	text-align: center;
+}
+
+tbody tr:nth-child(even)
+{
+	background-color: #fff;
+}
+
+tbody tr:nth-child(odd)
+{
+	background-color: #f1f1f1;
+}
+
+
