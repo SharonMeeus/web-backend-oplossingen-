@@ -1,0 +1,20 @@
+/*
+	MINIMAL DESIGN
+	based on the sleek design of Jacob Säwensten ( http://www.jacobsawensten.com/ )
+	PDF: https://dribbble.com/shots/1460141-Free-minimal-browser-window/attachments/216671
+*/
+.facade-minimal
+{
+	position:  relative;
+	margin:  0px 0;
+	box-shadow:  0px 5px 10px rgba(0,0,0,0.1);
+	font-family: sans-serif;
+	color:#454545;
+	border-radius:3px;
+	overflow-x:hidden;
+}
+
+/*
+	INLINE SVG
+	Color can be changed inline (search for %23, which equals #)
+*/

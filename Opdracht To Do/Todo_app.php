@@ -1,12 +1,9 @@
 <?php 
-// verwijderen (via unset? zie php manual)
-// styling
 
 
 // De status van elk item moet bewaard worden, dus beter werken met sessions
 	
 	session_start();
-	//unset($_SESSION['todos']);
 
 	$a = false;
 	$b = array();
@@ -63,7 +60,7 @@
 		}
 	}
 
-	// Verwijderen proberen via unset. Dus we moeten eerst de array vinden adhv de key wrs.
+	// Verwijderen proberen via unset. Dus we moeten eerst de array vinden adhv de key.
 	// Dus eerst kijken of er op de knop verwijderen is gedrukt
 	if(isset($_POST["todo_verwijderen"]))
 	{
@@ -78,35 +75,38 @@
 
 	// voor no_do en no_done moeten we eerst kunnen kijken of er nog een do of done in onze session zit → we moeten kijken naar de status
 	// Dus je moet kijken of de waarde van het AANTAL do's of done groter is dan 0. Anders moet no_do en no_done op false
-	foreach ($_SESSION["todos"] as $key => $array) 
-	{	
-		foreach ($array as $value => $status) //De status eruit halen (do of done)
-		{
-			if($status == "do") // als de status do is, dan gaat aant_do met een omhoog, anders gaat aant_done omhoog
+	if(isset($_SESSION["todos"]))
+	{
+		foreach ($_SESSION["todos"] as $key => $array) 
+		{	
+			foreach ($array as $value => $status) //De status eruit halen (do of done)
 			{
-				$aant_do++;
+				if($status == "do") // als de status do is, dan gaat aant_do met een omhoog, anders gaat aant_done omhoog
+				{
+					$aant_do++;
+				}
+				elseif($status == "done")
+				{
+					$aant_done++;
+				}
 			}
-			elseif($status == "done")
+
+			if($aant_do == 0) // als er geen aant_do gevonden zijn zetten we no_do op true en tonen we een bep bericht in onze HTML
 			{
-				$aant_done++;
+				$no_do = true;
+			} else {
+				$no_do = false; // anders tonen we de items
 			}
-		}
 
-		if($aant_do == 0) // als er geen aant_do gevonden zijn zetten we no_do op true en tonen we een bep bericht in onze HTML
-		{
-			$no_do = true;
-		} else {
-			$no_do = false; // anders tonen we de items
-		}
+			if($aant_done == 0)
+			{
+				$no_done = true; // als er geen aant_done gevonden zijn zetten we no_done op true en tonen we een bep bericht in onze HTML
+			} else {
+				$no_done = false; // anders tonen we de items
+			}
 
-		if($aant_done == 0)
-		{
-			$no_done = true; // als er geen aant_done gevonden zijn zetten we no_done op true en tonen we een bep bericht in onze HTML
-		} else {
-			$no_done = false; // anders tonen we de items
-		}
-
-	}	
+		}	
+	}
 
 
 
@@ -118,14 +118,10 @@
 		<meta charset="utf-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	    <title>Todo App</title>	
+	    <link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body>
 		<div id="content">
-			<p>
-				<?php var_dump($_SESSION["todos"]); ?>
-				<?php var_dump($aant_do); ?>
-				<?php var_dump($aant_done); ?>
-			</p>
 
 			<!-- Als $_POST("input_todo") leeg is... -->
 			<!-- elke keer checken wanneer er wordt gesubmit -->
@@ -152,7 +148,7 @@
 							<?php if($status == "do") : ?> <!-- Enkel de items met de status "do" willen we in deze lijst tonen. -->
 								<li>
 									<form action="Todo_app.php" method="post">
-										<button title="status wijzigen" name="todo_wijzigen" value="<?= $key ?>" class="todo"> <!-- value moet de key zijn om te weten welk item in de session veranderd moet worden -->
+										<button title="status wijzigen" name="todo_wijzigen" value="<?= $key ?>" class="status not-done"> <!-- value moet de key zijn om te weten welk item in de session veranderd moet worden -->
 											<?= $value ?>
 										</button>
 										<button title="verwijderen" name="todo_verwijderen" value="<?= $key ?>">
@@ -179,7 +175,7 @@
 							<?php if($status == "done") : ?> <!-- Enkel de items met de status "done" willen we in deze lijst tonen. -->
 								<li>
 									<form action="Todo_app.php" method="post">
-										<button title="status wijzigen" name="todo_wijzigen" value="<?= $key ?>" class="done"> <!-- value moet de key zijn om te weten welk item in de session veranderd moet worden -->
+										<button title="status wijzigen" name="todo_wijzigen" value="<?= $key ?>" class="status done"> <!-- value moet de key zijn om te weten welk item in de session veranderd moet worden -->
 											<?= $value ?>
 										</button>
 										<button title="verwijderen" name="todo_verwijderen" value="<?= $key ?>">

@@ -1,6 +1,7 @@
-			<footer>
-				<p>© 2015</p>
-			</footer>
+				<footer>
+			        dit is de footer
+			    </footer>
+		    </div>
 		</div>
 		<?= $JsLinks ?>
 	</body>
