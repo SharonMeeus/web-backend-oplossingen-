@@ -67,8 +67,8 @@
 </head>
 <body>
 	<h1>Overzicht van de brouwers</h1>
-	<p><?php var_dump($fetchAssoc) ?></p>
-	<p><?= var_dump($_POST["delete"])?></p>
+	<!--<p><?php var_dump($fetchAssoc) ?></p>
+	<p><?= var_dump($_POST["delete"])?></p> -->
 	<p class="fout"><?= ($message) ? $message["text"] : "" ?></p>
 	<form action="opdracht-CRUD-delete.php" method="post">
 		<table>
@@ -86,7 +86,7 @@
 						<?php foreach($array as $arraykey => $value) : ?>
 							<td><?= $value ?></td>
 						<?php endforeach ?>
-						<td><input name="delete" value=<?= $array['brouwernr'] ?> type="submit" class="input-icon-button delete"></td> <!-- De delete knop ook toevoegen -->
+						<td><button name="delete" value="<?= $array['brouwernr'] ?>" type="submit" class="input-icon-button delete"></button></td> <!-- De delete knop ook toevoegen -->
 					</tr>
 				<?php endforeach ?>
 			</tbody>
