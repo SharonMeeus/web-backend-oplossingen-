@@ -2,6 +2,7 @@
 
 	$message = false; // zoals errorMessage bij errorhandling
 	$brouwerijnr = 0;
+	$x = true;
 	try
 	{
 		$db = new PDO('mysql:host=localhost;dbname=bieren', 'root', 'admin'); // Connectie maken met DB bieren en username rot en password admin
@@ -21,11 +22,11 @@
 			$statement->bindValue(':gemeente', $_POST['gemeente']);
 			$statement->bindValue(':omzet', $_POST['omzet']);
 
-			$statement->execute();
+			$isdeleted = $statement->execute(); // wordt nu sowieso uitgevoerd
 
 			$brouwerijnr = $db->lastInsertId(); // de id verkrijgen van de brouwerij die je net hebt ingevoerd. Moet dus NA execute komen
 
-			if($statement->execute())
+			if($isdeleted)
 			{
 				$message["type"] = "gelukt";
 				$message["text"] = "Brouwerij succesvol toegevoegd. Het unieke nummer van deze brouwerij is " . $brouwerijnr;
@@ -54,7 +55,6 @@
 <body>
 	<h1>Voeg een brouwer toe</h1>
 	<p class="fout"><?= ($message) ? $message["text"] : "" ?></p>
-	<p><?= var_dump($db->lastInsertId()) ?></p>
 	<form action="opdracht-crud-insert.php" method="post">
 		<label>Brouwernaam</label> <br/>
 		<input type="text" name="brnaam" /><br/>

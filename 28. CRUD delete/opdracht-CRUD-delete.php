@@ -1,37 +1,59 @@
 <?php
 
-// Verwijderen lukt niet??
+// Verwijderen lukt niet?? → Enkel wanneer er geen FK is
 	
+	session_start();
+
 	$message = false; // zoals errorMessage bij errorhandling
+	$confirm_delete = false; 
 
 	try
 	{
 		$db = new PDO('mysql:host=localhost;dbname=bieren', 'root', 'admin'); // Connectie maken met DB bieren en username rot en password admin
 		
 		/* Eerst kijken of er iets verwijderd is zodat we de DB kunnen updaten alvorens we de waarden tonen */
+
 		if(isset($_POST["delete"]))
 		{
-			$delete = 'DELETE FROM brouwers
-					   WHERE brouwernr = :brouwernr';
+
+			$confirm_delete = true;
+			$_SESSION["brouwernr"] = $_POST["delete"];
+
+		}
+
+		if(isset($_POST["ja"]))
+		{
+
+			$delete = 'DELETE FROM brouwers WHERE brouwers.brouwernr = :brouwernr';
 
 			$statement2 = $db->prepare($delete);
 
-			$statement2->bindValue(':brouwernr', $_POST['delete'] ); // $_POST['delete'] in de waarde :brouwernr steken
+			$statement2->bindValue(':brouwernr', $_SESSION["brouwernr"]); // $_POST['delete'] in de waarde :brouwernr steken
 
 			$statement2->execute();
 
 			if (!$statement2->execute()) //statement2 -> execute() geeft true of false terug. Als deze false is, is er iets mis.
 			{
         		$message["type"] = "error";
-        		$message["text"] = "Fout bij delete: " . ($statement2->errorInfo()[2]); // errorInfo() geeft een array mee, de foutcode zit in het 3e element
+        		$message["text"] = "De datarij kon niet verwijderd worden. Probeer opnieuw.";/*($statement2->errorInfo()[2]); // errorInfo() geeft een array mee, de foutcode zit in het 3e element */
     		}		
     		else
     		{
     			$message["type"] = "gelukt";
-    			$message["text"] = "Verwijderen gelukt";
+    			$message["text"] = "De datarij werd goed verwijderd";
     		}	
 
-		}
+    		unset($_SESSION["brouwernr"]);
+    		$confirm_delete = false;
+    	}
+
+    	elseif(isset($_POST["nee"]))
+    	{
+    		$confirm_delete = false;
+    		unset($_SESSION["brouwernr"]);
+    	}
+
+		
 
 		$queryString = 'SELECT * FROM brouwers';
 
@@ -63,13 +85,22 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<title>CRUD query</title>
+	<title>CRUD delete</title>
 </head>
 <body>
 	<h1>Overzicht van de brouwers</h1>
-	<!--<p><?php var_dump($fetchAssoc) ?></p>
-	<p><?= var_dump($_POST["delete"])?></p> -->
+	<!--<p><?php var_dump($fetchAssoc) ?></p> 
+	<p><?= var_dump($_SESSION["brouwernr"])?></p> --> 
 	<p class="fout"><?= ($message) ? $message["text"] : "" ?></p>
+
+	<?php if($confirm_delete) : ?>
+		<form action="opdracht-CRUD-delete.php" method="post">
+			<label>Bent u zeker dat u deze datarij wil verwijderen?</label><br/>
+			<button type="submit" name="ja">Ja!</button>
+			<button type="submit" name="nee">Néééééé!</button>
+		</form>
+	<?php endif ?>
+
 	<form action="opdracht-CRUD-delete.php" method="post">
 		<table>
 			<thead>
@@ -82,7 +113,7 @@
 			</thead>
 			<tbody>
 				<?php foreach($fetchAssoc as $key => $array) : ?> 
-					<tr> <!-- elke array in een nieuwe tr -->
+					<tr class="<?= (null != $_SESSION['brouwernr'] ? ($_SESSION['brouwernr'] == $array['brouwernr'] ? 'red' : '' ) : '' ) ?>"> <!-- elke array in een nieuwe tr -->
 						<?php foreach($array as $arraykey => $value) : ?>
 							<td><?= $value ?></td>
 						<?php endforeach ?>

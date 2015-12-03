@@ -24,15 +24,22 @@ thead td
 	text-align: center;
 }
 
-tbody tr:nth-child(even)
+tr:nth-child(even)
 {
 	background-color: #fff;
 }
 
-tbody tr:nth-child(odd)
+tr:nth-child(odd)
 {
 	background-color: #f1f1f1;
 }
+
+tr.red
+{
+	background-color: red;
+	background-color: rgba(255, 0, 0, 0.2);
+}
+
 
 .input-icon-button
 {
@@ -48,6 +55,5 @@ tbody tr:nth-child(odd)
     height:16px;
     background: url("http://web-backend.local/img/icon-delete.png") no-repeat;
 }
-
 
 
