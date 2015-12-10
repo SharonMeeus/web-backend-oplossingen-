@@ -13,7 +13,7 @@ thead
 	font-weight: bold;
 }
 
-td, th
+td, th 
 {
 	border: 1px solid black;
 	padding: 10px;
@@ -46,6 +46,12 @@ tr.red
 	background-color: rgba(255, 0, 0, 0.2);
 }
 
+tr.green
+{
+	background-color: green;
+	background-color: rgba(64, 255, 100, 0.2);
+}
+
 
 .input-icon-button
 {
@@ -61,5 +67,13 @@ tr.red
     height:16px;
     background: url("http://web-backend.local/img/icon-delete.png") no-repeat;
 }
+
+.edit
+{
+	width:16px;
+    height:16px;
+    background: url("http://web-backend.local/img/icon-edit.png") no-repeat;
+}
+
 
 

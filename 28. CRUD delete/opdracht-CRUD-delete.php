@@ -106,9 +106,9 @@
 			<thead>
 				<tr>
 					<?php foreach($fetchAssoc[0] as $key => $value) : ?> <!-- mag ook [1], [2],... zijn: Je neemt de eerste array en daarvan altijd de key (=kolomnaam) -->
-						<td><?= $key ?></td>
+						<th><?= $key ?></th>
 					<?php endforeach ?>
-					<td>verwijderen</td> <!-- head voor de knoppen -->
+					<th>verwijderen</th> <!-- head voor de knoppen -->
 				</tr>	
 			</thead>
 			<tbody>

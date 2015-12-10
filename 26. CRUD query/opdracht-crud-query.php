@@ -47,9 +47,9 @@
 	<table>
 		<thead>
 			<tr>
-				<td>#</td>
+				<th>#</th>
 				<?php foreach($fetchAssoc[0] as $key => $value) : ?> <!-- mag ook [1], [2],... zijn: Je neemt de eerste array en daarvan altijd de key (=kolomnaam) -->
-					<td><?= $key ?></td>
+					<th><?= $key ?></th>
 				<?php endforeach ?>
 			</tr>	
 		</thead>
