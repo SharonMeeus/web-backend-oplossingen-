@@ -1,5 +1,9 @@
 <?php 
 
+// array veranderd in: array("value" => $_POST["input_todo"], "status" => true/false) Op deze manier kan je nog vele andere waarden toevoegen
+// → do of don't in false of true omzetten
+// doordat je de do/don't omzet naar een boolean kan je gewoon werken met $_SESSION["todos"][$key] != $_SESSION["todos"][$key] zonder if - elseif
+
 
 // De status van elk item moet bewaard worden, dus beter werken met sessions
 	
@@ -11,6 +15,7 @@
 	$no_done = true;
 	$aant_do = 0;
 	$aant_done = 0;
+	//unset($_SESSION["todos"]);
 
 	$error = false;
 
@@ -19,12 +24,11 @@
 	{
 		if(isset($_POST["input_todo"]) && $_POST["input_todo"] != "" )
 		{
-			// We gaan elk item een "do" waarde geven om te kunnen wisselen tussen do en done.
-			$array_w_status = array($_POST["input_todo"] => "do");
+			// We gaan een assoc array maken met als value wat je moet doen/gedaan hebt en als status true/false (todo/done). Zo kan je ook nog een datum of prioriteit meegeven
+			$array_w_status = array("value" => $_POST["input_todo"], "status" => true);
 			// Dit gaan we dan in een session moeten steken om de status te onthouden.
 			// Een multidimensionale array om zo ELK item en status te onthouden. Anders kan er maar één array in.
 			$_SESSION['todos'][] = $array_w_status;
-			$no_do = false; 
 		}
 
 		else 
@@ -39,24 +43,12 @@
 		// Het item in het session-object zoeken aan de hand van de value van de button en de session key
 		foreach ($_SESSION["todos"] as $key => $array) 
 		{
-			foreach ($array as $value => $status) {
 				// Hier dus de session doorzoeken tot de key matcht met de value
 				if($_POST["todo_wijzigen"] == $key)
-				{
-					if($status == "do") // kijken of status do is en wisselen naar done
-					{
-						$_SESSION["todos"][$key] = array($value => "done"); // deze plaats in de session vervangen met de array die we net gewijzigd hebben
-						$no_done = false; // dit er even bij zetten zodat het getoond wordt. Moet later vervangen worden door functie.
-					} 
-					elseif($status == "done") 
-					{
-						$_SESSION["todos"][$key] = array($value => "do"); // deze plaats in de session vervangen met de array die we net gewijzigd hebben
-						$no_do = false;
-					}
-
+				{	
+					//Doordat we met een assoc array werken, kan je gwn de naam opzoeken en deze wijzigen (geen dubbele foreach)
+					$_SESSION["todos"][$key]["status"] = !$_SESSION["todos"][$key]["status"];
 				}
-			}
-
 		}
 	}
 
@@ -79,32 +71,10 @@
 	{
 		foreach ($_SESSION["todos"] as $key => $array) 
 		{	
-			foreach ($array as $value => $status) //De status eruit halen (do of done)
-			{
-				if($status == "do") // als de status do is, dan gaat aant_do met een omhoog, anders gaat aant_done omhoog
-				{
-					$aant_do++;
-				}
-				elseif($status == "done")
-				{
-					$aant_done++;
-				}
-			}
-
-			if($aant_do == 0) // als er geen aant_do gevonden zijn zetten we no_do op true en tonen we een bep bericht in onze HTML
-			{
-				$no_do = true;
-			} else {
-				$no_do = false; // anders tonen we de items
-			}
-
-			if($aant_done == 0)
-			{
-				$no_done = true; // als er geen aant_done gevonden zijn zetten we no_done op true en tonen we een bep bericht in onze HTML
-			} else {
-				$no_done = false; // anders tonen we de items
-			}
-
+			($array["status"]) ? $aant_do++ : $aant_done++;
+			
+			$no_do = ($aant_do == 0) ? true : false ;
+			$no_done = ($aant_done == 0) ? true: false ;	
 		}	
 	}
 
@@ -145,11 +115,11 @@
 					<!-- Een lijstje met de to do's (via een foreach) inclusief buttons verwijder en status aanpassen -->
 					<?php foreach($_SESSION["todos"] as $key => $array) : ?> <!-- waarbij de array gwn de array met het item en de status -->
 						<?php foreach ($array as $value => $status) : ?> <!-- value is het item, en de status "do" of "done" -->
-							<?php if($status == "do") : ?> <!-- Enkel de items met de status "do" willen we in deze lijst tonen. -->
+							<?php if($status === true) : ?> <!-- Enkel de items met de status "do" willen we in deze lijst tonen. -->
 								<li>
 									<form action="Todo_app.php" method="post">
 										<button title="status wijzigen" name="todo_wijzigen" value="<?= $key ?>" class="status not-done"> <!-- value moet de key zijn om te weten welk item in de session veranderd moet worden -->
-											<?= $value ?>
+											<?= $array["value"] ?>
 										</button>
 										<button title="verwijderen" name="todo_verwijderen" value="<?= $key ?>">
 										</button>
@@ -172,11 +142,11 @@
 					<!-- Een lijstje met de to do's (via een foreach) inclusief buttons verwijder en status aanpassen -->
 					<?php foreach($_SESSION["todos"] as $key => $array) : ?> <!-- waarbij de array gwn de array met het item en de status -->
 						<?php foreach ($array as $value => $status) : ?> <!-- value is het item, en de status "do" of "done" -->
-							<?php if($status == "done") : ?> <!-- Enkel de items met de status "done" willen we in deze lijst tonen. -->
+							<?php if($status === false) : ?> <!-- Enkel de items met de status "done" willen we in deze lijst tonen. -->
 								<li>
 									<form action="Todo_app.php" method="post">
 										<button title="status wijzigen" name="todo_wijzigen" value="<?= $key ?>" class="status done"> <!-- value moet de key zijn om te weten welk item in de session veranderd moet worden -->
-											<?= $value ?>
+											<?= $array["value"] ?>
 										</button>
 										<button title="verwijderen" name="todo_verwijderen" value="<?= $key ?>">
 										</button>
