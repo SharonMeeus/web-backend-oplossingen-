@@ -22,11 +22,11 @@
 			$statement->bindValue(':gemeente', $_POST['gemeente']);
 			$statement->bindValue(':omzet', $_POST['omzet']);
 
-			$isdeleted = $statement->execute(); // wordt nu sowieso uitgevoerd
+			$isinserted = $statement->execute(); // wordt nu sowieso uitgevoerd
 
 			$brouwerijnr = $db->lastInsertId(); // de id verkrijgen van de brouwerij die je net hebt ingevoerd. Moet dus NA execute komen
 
-			if($isdeleted)
+			if($isinserted)
 			{
 				$message["type"] = "gelukt";
 				$message["text"] = "Brouwerij succesvol toegevoegd. Het unieke nummer van deze brouwerij is " . $brouwerijnr;
