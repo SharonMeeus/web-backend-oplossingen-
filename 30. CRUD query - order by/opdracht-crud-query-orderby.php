@@ -20,9 +20,9 @@
 
 		if(isset($_GET["order_by"]))
 		{
-			$arrayorder = explode("-", $_GET["order_by"]);
-			$ordertable = $arrayorder[0];
-			$orderdirection = $arrayorder[1];
+			$arrayorder = explode("-", $_GET["order_by"]); //de key scheiden van asc of desc
+			$ordertable = $arrayorder[0]; // zo weten we welke kolom we moeten sorteren
+			$orderdirection = $arrayorder[1]; // en of het asc of desc moet zijn
 			$queryString = $queryString . " " . "ORDER BY " . $ordertable . " " . $orderdirection;   
 		}
 

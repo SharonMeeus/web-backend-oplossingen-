@@ -5,12 +5,12 @@
 	$showcontent = false;
 	$message = "";
 
-	if(isset($_SESSION["notification"]))
+	if(isset($_SESSION["notification"])) // kijken of er (error)messages zijn
 	{
 		$message = $_SESSION["notification"]["message"];
 	}
 
-	if(!isset($_COOKIE["login"]))
+	if(!isset($_COOKIE["login"])) // als er geen cookie is (Als iemand rechtstreeks naar deze pagina surft)
 	{
 		$_SESSION["notification"]["type"] = "error";
 		$_SESSION["notification"]["message"] = "U moet eerst inloggen";
@@ -28,11 +28,11 @@
 			$statement = $db->query("SELECT users.salt FROM users WHERE users.email = '$usermail'");
 			$salt = $statement->fetchColumn();
 
-			if(hash('sha256', $usermail . $salt) == $saltmail)
+			if(hash('sha256', $usermail . $salt) == $saltmail) // kijken of cookie klopt door te vergelijken met onze database
 			{
 				$showcontent = true;
 			}
-			else
+			else // als ermee geknoeid is gaan we de cookie verwijderen en naar de login pagina verwijzen
 			{
 				unset($_COOKIE["login"]);
 				header('location: login.php');

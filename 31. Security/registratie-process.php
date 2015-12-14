@@ -50,11 +50,11 @@
 				    $_SESSION["notification"]["type"] = "error";
 					$_SESSION["notification"]["message"] = "Dit emailadres is al geregistreerd.";
 				}
-				else // anders niet registreren
+				else // anders registreren
 				{
-					$salt = uniqid(mt_rand(), true);
-					$saltpass = $salt . $paswoord;
-					$hashedpass = hash('sha256', $saltpass);
+					$salt = uniqid(mt_rand(), true); // unieke code aanmaken
+					$saltpass = $salt . $paswoord; // deze concateneren met het paswoord
+					$hashedpass = hash('sha256', $saltpass); // en dit dan hashen
 
 					$query = "INSERT INTO users(email, salt, hashed_password, last_login_time) 
 					  VALUES ('$email', '$salt', '$hashedpass', NOW())"; //variabelen meegeven kan blijkbaar ook, is korter (met dank aan Robin).
@@ -73,8 +73,8 @@
 						$_SESSION["notification"]["type"] = "succes";
 						$_SESSION["notification"]["message"] = "Gelukt! Je bent nu geregistreerd.";
 
-						$value = $email . ", " . hash('sha256', $email . $salt);
-						setcookie("login", $value, time()+86400 * 30);
+						$value = $email . ", " . hash('sha256', $email . $salt); 
+						setcookie("login", $value, time()+86400 * 30); // Als de registratie gelukt is een cookie meegeven met als waarde $value en beschikbaarheid 30 dagen
 					}
 				}
 			}
@@ -82,10 +82,16 @@
 			{
 				$_SESSION["notification"]["type"] = "error";
 				$_SESSION["notification"]["message"] = "Er is iets mis met de database: " . $e->getMessage(); 
+				header('location: registratie.php');
 			}
 		}
 
-		header('location: registratie.php');
+		
+	}
+
+	else
+	{
+		header("location: registratie.php");
 	}
 
 	

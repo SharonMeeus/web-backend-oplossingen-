@@ -2,8 +2,9 @@
 	
 	session_start();
 
-	unset($_COOKIE["login"]);
+	unset($_COOKIE["login"]); // cookie verwijderen
 	setcookie("login", "", time()-3600);
+	
 	$_SESSION["notification"]["type"] = "succes";
 	$_SESSION["notification"]["message"] = "U bent uitgelogd. Tot de volgende keer!";
 

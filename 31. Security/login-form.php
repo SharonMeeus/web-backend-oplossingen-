@@ -5,7 +5,7 @@
 	$message = "";
 	$email = "";
 
-	if(isset($_SESSION["notification"]))
+	if(isset($_SESSION["notification"])) //messages
 	{
 		$message = $_SESSION["notification"]["message"];
 		unset($_SESSION["notification"]);
@@ -16,7 +16,7 @@
 		$email = $_SESSION["data"]["emailadres"];
 	}
 
-	if(isset($_COOKIE["login"]))
+	if(isset($_COOKIE["login"])) // Als er al een cookie is geset (Gebruiker is al ingelogd en heeft nog niet uitgelogd)
 	{
 		header('location: dashboard.php');
 	}

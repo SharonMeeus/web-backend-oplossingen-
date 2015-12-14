@@ -8,19 +8,19 @@
 
 	if(isset($_SESSION["data"])) // kijken of deze session er is
 	{
-		$paswoord = $_SESSION["data"]["paswoord"];
+		$paswoord = $_SESSION["data"]["paswoord"]; // alles toewijzen
 		$email = $_SESSION["data"]["emailadres"];
-		$_SESSION["data"]["paswoord"] = "";
+		$_SESSION["data"]["paswoord"] = ""; // nadat het wachtwoord is toegewezen, terug op "" zetten zodat bij een refresh het veld weer leeg is
 	}
 
 	if(isset($_SESSION["notification"]))
 	{
-		$message = $_SESSION["notification"]["message"];
+		$message = $_SESSION["notification"]["message"]; // error message
 	}
 
 	if(isset($_COOKIE["login"]))
 	{
-		header('location: dashboard.php');
+		header('location: dashboard.php'); // als deze user al heeft ingelogd (en niet heeft uitgelogd) mag deze direct naar het dashboard
 	}
 
 ?>
