@@ -66,6 +66,7 @@
 					{
 						$_SESSION["notification"]["type"] = "error";
 						$_SESSION["notification"]["message"] = "Er ging iets mis bij het toevoegen..."; //. $statement->errorInfo()[2]
+						header('location: registratie.php');
 					}
 
 					else
@@ -75,6 +76,7 @@
 
 						$value = $email . ", " . hash('sha256', $email . $salt);
 						setcookie("login", $value, time()+86400 * 30);
+						header('location: login-form.php');
 					}
 				}
 			}
@@ -85,6 +87,7 @@
 				header('location: registratie.php');
 			}
 		}
+		header('location: registratie.php');
 	}
 
 	

@@ -38,14 +38,14 @@
 			else // anders is ermee geknoeid
 			{
 				unset($_COOKIE["login"]);
-				header('location: login.php');
+				header('location: login-form.php');
 			}
 		} 
 		catch (Exception $e)
 		{
 			$_SESSION["notification"]["type"] = "error";
 			$_SESSION["notification"]["message"] = "Er is iets mis met de database. Probeer eventueel later opnieuw.";	
-			header('location: login.php');
+			header('location: login-form.php');
 		}
 	}
 ?>
