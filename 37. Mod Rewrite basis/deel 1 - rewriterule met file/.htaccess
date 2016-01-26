@@ -1,0 +1,8 @@
+# Rewrite Engine activeren
+RewriteEngine on
+
+#Herschrijf/hernoem redirect.php
+#RewriteRule ^original.php$ redirect.php
+
+#original.php instellen als indexpagina
+DirectoryIndex original.php

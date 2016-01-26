@@ -1,0 +1,6 @@
+# Rewrite Engine activeren
+RewriteEngine on
+
+#met harcoded controller
+RewriteRule ^bieren/([^/\.]+)/?$ index.php?controller=bieren&method=$1
+RewriteRule ^bieren/([^/\.]+)/([^/\.]+)/?$ index.php?controller=bieren&method=$1&id=$2

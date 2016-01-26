@@ -1,0 +1,5 @@
+# Rewrite Engine activeren
+RewriteEngine on
+
+# Heroem rasmus hardcoded
+RewriteRule ^([0-9a-zA-Z]+)/?$ original.php?user=$1

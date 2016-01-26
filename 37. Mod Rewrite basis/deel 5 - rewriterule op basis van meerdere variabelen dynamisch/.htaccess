@@ -1,0 +1,6 @@
+# Rewrite Engine activeren
+RewriteEngine on
+
+# Heroem rasmus hardcoded
+RewriteRule ^([0-9a-zA-Z]+)/([0-9a-zA-Z]+)/?$ original.php?role=$1&user=$2
+

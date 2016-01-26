@@ -16,29 +16,41 @@
 		$_SESSION["notification"]["message"] = "";
 	}
 
-	try
-	{
-		$db = new PDO('mysql:host=localhost;dbname=CMS', 'root', 'admin');
-
-		$query = "SELECT * FROM artikels";
-
-		$statement = $db->prepare($query);
-
-		// query uitvoeren
-		$statement->execute();
-
-		$fetchAssoc = array(); // hierin komt een assoc array → (tabelnaam => values)
-
-		while ( $row = $statement->fetch(PDO::FETCH_ASSOC) ) // de waarden uit onze db halen
-		{
-			$fetchAssoc[]	=	$row; // de waarden in de array steken.
-		}
-	}
-	catch(Exception $e)
+	if(!isset($_COOKIE["login"])) // Als deze user nog niet heeft ingelogd of heeft uitgelogd, anders is er een cookie
 	{
 		$_SESSION["notification"]["type"] = "error";
-		$_SESSION["notification"]["message"] = "Er is iets mis met de database: " . $e->getMessage(); 
+		$_SESSION["notification"]["message"] = "U moet eerst inloggen";
+		header('location: login-form.php');
 	}
+	else
+	{
+		try
+		{
+			$db = new PDO('mysql:host=localhost;dbname=CMS', 'root', 'admin');
+
+			$query = "SELECT * FROM artikels";
+
+			$statement = $db->prepare($query);
+
+			// query uitvoeren
+			$statement->execute();
+
+			$fetchAssoc = array(); // hierin komt een assoc array → (tabelnaam => values)
+
+			while ( $row = $statement->fetch(PDO::FETCH_ASSOC) ) // de waarden uit onze db halen
+			{
+				$fetchAssoc[]	=	$row; // de waarden in de array steken.
+			}
+		}
+		catch(Exception $e)
+		{
+			$_SESSION["notification"]["type"] = "error";
+			$_SESSION["notification"]["message"] = "Er is iets mis met de database: " . $e->getMessage(); 
+		}
+
+	}
+
+	
 ?>
 
 <html>

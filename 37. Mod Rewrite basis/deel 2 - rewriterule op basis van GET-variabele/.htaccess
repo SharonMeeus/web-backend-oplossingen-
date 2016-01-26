@@ -1,0 +1,5 @@
+# Rewrite Engine activeren
+RewriteEngine on
+
+# Heroem rasmus hardcoded
+RewriteRule ^rasmus/?$ original.php?user=rasmus

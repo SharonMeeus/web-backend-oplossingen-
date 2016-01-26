@@ -1,0 +1,12 @@
+# Rewrite Engine activeren
+RewriteEngine on
+
+#met harcoded controller
+RewriteRule ^artikels/?$ artikel-overzicht.php
+RewriteRule ^artikels/toevoegen/?$ artikel-toevoegen-form.php 
+RewriteRule ^artikels/toevoegen/confirm/?$ artikel-toevoegen-process.php 
+RewriteRule ^artikels/zoeken/?$ artikel-zoeken-redirect.php
+RewriteRule ^artikels/zoeken/content/([^/\.]+)/?$ artikel-zoeken.php?zoekterm=$1
+RewriteRule ^artikels/zoeken/datum/([^/\.]+)/?$ artikel-zoeken.php?zoekjaar=$1
+
+
