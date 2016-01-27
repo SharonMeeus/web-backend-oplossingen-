@@ -5,8 +5,12 @@
 	<h1>Voeg een todo-item toe</h1>
 
 	@foreach ($errors->all() as $error)
-		<p class="error">{{ $error }}</p>
+		<p class="text-danger">{{ $error }}</p>
 	@endforeach
+	
+	<p class="text-left">
+		<small><a href="{{URL::route('todos')}}">Terug naar mijn todos</a></small>
+	</p>
 
 	{{Form::open()}}
 		<div class="form-group">

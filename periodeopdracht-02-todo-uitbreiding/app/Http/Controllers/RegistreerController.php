@@ -15,14 +15,23 @@ class RegistreerController extends Controller
 {
 	public function getRegistreer()
 	{
-		return view('registreer');
+        if(Auth::user())
+        {
+            return redirect('dashboard')->with('error', 'Je bent al ingelogd!');
+        }
+        else
+        {
+		    return view('registreer');
+        }
 	}
 
 	public function postRegistreer()
 	{
         $input = Input::all();
-		$rules = array('emailadres' => 'required|unique:users|email', 'password' => 'required');
-        $validator = Validator::make($input, $rules);
+		$rules = array('emailadres' => 'required|unique:users|email', 'paswoord' => 'required');
+        $messages = array('required' => 'Gelieve het veld :attribute niet open te laten',
+                          'unique' => 'Dit emailadres bestaat al, gelieve naar de login-pagina te gaan');
+        $validator = Validator::make($input, $rules, $messages);
 
         if($validator->fails())
         {
@@ -31,7 +40,7 @@ class RegistreerController extends Controller
             ->withErrors($validator);
         }
 
-        $password = $input["password"];
+        $password = $input["paswoord"];
         $password = Hash::make($password);
         $user = new User;
         $user->emailadres = $input['emailadres'];
@@ -39,7 +48,7 @@ class RegistreerController extends Controller
         $user->save();     
 
         $credentials = array('emailadres' => $input['emailadres'], 
-                             'password'   => $input['password']);
+                             'password'   => $input['paswoord']);
 
         if(Auth::attempt($credentials))
         {

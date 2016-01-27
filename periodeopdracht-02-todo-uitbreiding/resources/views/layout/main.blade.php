@@ -3,6 +3,7 @@
 <head>
 	<title>Our Todo Application</title>
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{{URL::asset('/css/style.css')}}">
 </head>
 <body>
 	<nav class="navbar navbar-default">

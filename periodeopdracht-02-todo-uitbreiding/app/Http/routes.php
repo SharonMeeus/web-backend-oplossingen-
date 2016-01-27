@@ -15,17 +15,18 @@
 Route::group(['middleware' => ['web']], function () 
 {
 	Route::get('/home', array('as' => 'home', 'uses' => 'HomeController@index'));
+	Route::get('/', array('as' => 'home', 'uses' => 'HomeController@index'));
 
 	Route::get('/registreer', array('as' => 'registreer', 'uses' => 'RegistreerController@getRegistreer'));
 	Route::post('/registreer', array('uses' => 'RegistreerController@postRegistreer'));
 
 /* Authenticated users */
 
-	Route::get('/login', array('as' => 'login', 'uses' => 'LoginController@getLogin' ))->middleware('guest');
+	Route::get('/login', array('as' => 'login', 'uses' => 'LoginController@getLogin' ));
 	Route::post('login', array('uses' => 'LoginController@postLogin'));
-	Route::get('/logout', array('as' => 'logout', 'uses' => 'LoginController@getLogout'))->middleware('auth');
+	Route::get('/logout', array('as' => 'logout', 'uses' => 'LoginController@getLogout'));
 
-	Route::get('/dashboard', array('as' => 'home', 'uses' => 'DashboardController@index'))->middleware('auth');
+	Route::get('/dashboard', array('as' => 'home', 'uses' => 'DashboardController@index'));
 
 	Route::get('/todos', array('as' => 'todos', 'uses' => 'ToDoController@getTodos'));
 	Route::post('/todos', array('uses' => 'TodoController@postIndex'));

@@ -13,13 +13,21 @@ class LoginController extends Controller
 {
 	public function getLogin()
 	{
-		return view('login');
+		if(Auth::user())
+        {
+            return redirect('dashboard')->with('error', 'Je bent al ingelogd!');
+        }
+        else
+        {
+			return view('login');
+		}
 	}
 
 	public function postLogin()
 	{
-		$rules = array('emailadres' => 'required', 'password' => 'required');
-		$validator = Validator::make(Input::all(), $rules);
+		$rules = array('emailadres' => 'required', 'paswoord' => 'required');
+		$messages = array('required' => 'Gelieve het veld :attribute niet open te laten');
+		$validator = Validator::make(Input::all(), $rules, $messages);
 
 		if($validator->fails())
 		{
@@ -31,7 +39,7 @@ class LoginController extends Controller
 		$auth = Auth::attempt(array(
 
 			'emailadres' => Input::get('emailadres'),
-			'password'=> Input::get('password')
+			'password'=> Input::get('paswoord')
 
 		), false);
 
@@ -49,7 +57,14 @@ class LoginController extends Controller
 
 	public function getLogout()
 	{
-		Auth::logout();
-		return redirect('/home');
+		if(!Auth::user())
+        {
+            return redirect('login')->with('error', 'Gelieve eerst in te loggen');
+        }
+        else
+        {
+			Auth::logout();
+			return redirect('/home');
+		}
 	}
 }

@@ -1,0 +1,41 @@
+body
+{
+	text-align: center;
+}
+
+h1
+{
+	margin-bottom: 40px;
+}
+
+form, h2
+{
+	text-align: left;
+}
+.done
+{
+	color: green;
+}
+
+label.done:hover
+{
+	color:black;
+}
+
+label.undone:hover
+{
+	color: green;
+}
+
+
+.glyphicon-remove
+{
+	float: right;
+	color: #6E6B6B;
+}
+
+.glyphicon-remove:hover
+{
+	text-decoration: none;
+	color: #A80A0A;
+}

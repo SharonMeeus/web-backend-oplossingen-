@@ -16,9 +16,29 @@ class ToDoController extends Controller
 
 	public function getTodos()
     {
-    	$todos = Auth::user()->todos;
+        if(!Auth::user())
+        {
+            return redirect('login')->with('error', 'Gelieve eerst in te loggen');
+        }
+        else
+        {
+        	$todos = Auth::user()->todos;
+            $dos = 0;
+            $dones = 0;
+            foreach ($todos as $todo) 
+            {
+                if(!$todo->done)
+                {
+                    $dos++;
+                }
+                else
+                {
+                    $dones++;
+                }
+            }
 
-        return view('todos', array('todos' => $todos));
+            return view('todos', array('todos' => $todos, "dos" => $dos, 'dones' => $dones));
+        }
     }
 
     public function postIndex()
@@ -37,17 +57,27 @@ class ToDoController extends Controller
 
     public function getNew()
     {
-        return view('new');
+        if(!Auth::user())
+        {
+            return redirect('login')->with('error', 'Gelieve eerst in te loggen');
+        }
+        else
+        {
+            return view('new');
+        }
     }
 
     public function postNew()
     {
         $rules = array('name' => 'required|min:3|max:255');
-        $validator = Validator::make(Input::all(), $rules);
+        $messages = array('required' => 'Gelieve een todo in te geven (min 3 karakters)',
+                          'min' => 'Gelieve minstens 3 karakters in te geven',
+                          'max' => 'Gelieve niet meer dan 255 karakters in te geven');
+        $validator = Validator::make(Input::all(), $rules, $messages);
 
         if($validator->fails())
         {
-            return redirect('new')
+            return redirect('todos/new')
             ->withInput()
             ->withErrors($validator);
         }
@@ -62,11 +92,18 @@ class ToDoController extends Controller
 
     public function getDelete(Todo $task)
     {
-        if($task->user_id == Auth::user()->id)
+        if(!Auth::user())
         {
-            $task->delete();
+            return redirect('login')->with('error', 'Gelieve eerst in te loggen');
         }
+        else
+        {
+            if($task->user_id == Auth::user()->id)
+            {
+                $task->delete();
+            }
 
-        return redirect('/todos');
+            return redirect('/todos');
+        }
     }
 }

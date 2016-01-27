@@ -6,17 +6,17 @@
   <h1>Registreer</h1>
 
 	@foreach ($errors->all() as $error)
-		<p class="error">{{ $error }}</p>
+		<p class="text-danger">{{ $error }}</p>
 	@endforeach
 
 	{{Form::open()}}
   		<div class="form-group">
-    		<label for="emailadres">Email adres</label>
+    		<label for="email adres">Emailadres</label>
     		<input type="email" name="emailadres" class="form-control" id="emailadres" placeholder="Email">
   		</div>
   		<div class="form-group">
-    		<label for="password">Paswoord</label>
-    		<input type="password" name="password" class="form-control" id="password" placeholder="Wachtwoord">
+    		<label for="paswoord">Paswoord</label>
+    		<input type="password" name="paswoord" class="form-control" id="password" placeholder="Wachtwoord">
   		</div>
   		<button type="submit" class="btn btn-default">Registreer</button>
 	{{Form::close()}}

@@ -15,8 +15,14 @@ class DashboardController extends Controller
 {
     public function index()
     {
-    	$items = Auth::user()->items;
-
-        return view('dashboard');
+    	if(!Auth::user())
+        {
+            return redirect('login')->with('error', 'Gelieve eerst in te loggen');
+        }
+        else
+        {
+	    	$items = Auth::user()->items;
+	        return view('dashboard');
+    	}
     }
 }
